@@ -1,4 +1,6 @@
-Staff (Abstract Class)
+package edu.ucalgary.oop
+
+Staff (Abstract Class, implements ClinicEntity)
 
 **Fields**
 - private final String name
@@ -13,6 +15,8 @@ Staff (Abstract Class)
 - `getStaffID() : String`
 - `static getStaffCount() : int`
 - `getRole() : String` — abstract, returns "Veterinarian" or "Receptionist"
+- `getDetails() : String` — abstract
+
 
 
 Veterinarian (extends Staff)
@@ -25,16 +29,18 @@ Veterinarian (extends Staff)
 **Methods:**
 - `getSpecialization() : String`
 - `getRole() : String` — returns "Veterinarian" 
+- `getDetails() : String` — returns vet's name, ID, role, specialization
 
-Receptionist 
+Receptionist (extends Staff)
 **Constructor:**
-- `Receptionist(String name, String staffID)
+- `Receptionist(String name, String staffID)`
 
 **Methods:**
 - `getRole() : String` — returns "Receptionist"
+- `getDetails() : String` — returns receptionist's name, ID, role
 
 
-Pets (Abstract Class)
+Pet (Abstract Class, implements ClinicEntity)
 **Fields:**
 - `private String name`
 - `private int age`
@@ -54,7 +60,7 @@ Pets (Abstract Class)
 - `getDetails() : String` — abstract
 
 
-Dog (extend Pet)
+Dog (extends Pet)
 **Fields:**
 - `private boolean isVaccinated`
 
@@ -67,7 +73,7 @@ Dog (extend Pet)
 - `getDetails() : String`
 
 
-Cat (extend Pet)
+Cat (extends Pet)
 **Fields:**
 - `private boolean isIndoor`
 
@@ -79,7 +85,7 @@ Cat (extend Pet)
 - `setIndoor(boolean isIndoor) : void`
 - `getDetails() : String`
 
-## Owner
+Owner (implements ClinicEntity)
 **Fields:**
 - `private String name`
 - `private String phone`
@@ -101,10 +107,7 @@ Cat (extend Pet)
 - `addPet(Pet pet) : void`
 - `removePet(Pet pet) : void`
 
-## Appointment
-
-**Package:** `edu.ucalgary.oop`
-
+Appointment
 **Fields:**
 - `private Pet pet`
 - `private Veterinarian vet`
@@ -124,16 +127,16 @@ Cat (extend Pet)
 - `static getMaxDailyAppointments() : int`
 
 
- DoubleBookingException (extends Exception)
+DoubleBookingException (extends Exception)
 **Constructor:**
 - `DoubleBookingException(String message)`
 
 
-## DailyLimitExceededException (extends Exception)
+DailyLimitExceededException (extends Exception)
 **Constructor:**
 - `DailyLimitExceededException(String message)`
 
 
-## ClinicEntity (Interface)
+ClinicEntity (Interface)
 **Methods:**
 - `getDetails() : String`
