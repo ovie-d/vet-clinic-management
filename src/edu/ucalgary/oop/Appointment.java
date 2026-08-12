@@ -26,11 +26,11 @@ public class Appointment {
         return pet;
     }
 
-    public getveterinarian() {
+    public Veterinarian getVeterinarian() {
         return veterinarian;
     }
 
-    public DateTime getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
