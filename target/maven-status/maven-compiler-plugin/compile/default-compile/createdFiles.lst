@@ -1,10 +1,11 @@
-edu/ucalgary/oop/Appointment.class
 edu/ucalgary/oop/Dog.class
 edu/ucalgary/oop/Pet.class
+edu/ucalgary/oop/ClinicApp.class
+edu/ucalgary/oop/Cat.class
+edu/ucalgary/oop/Appointment.class
 edu/ucalgary/oop/Veterinarian.class
 edu/ucalgary/oop/Receptionist.class
 edu/ucalgary/oop/ClinicEntity.class
 edu/ucalgary/oop/Staff.class
 edu/ucalgary/oop/DoubleBookingException.class
-edu/ucalgary/oop/Cat.class
 edu/ucalgary/oop/Owner.class

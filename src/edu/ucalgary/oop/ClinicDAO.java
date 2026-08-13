@@ -225,14 +225,31 @@ public class ClinicDAO {
     // ==========================================
 
     public void addAppointment(Appointment appointment) {
-        String sql = "INSERT INTO appointments (pet_name, vet_id, date_time, notes) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, appointment.getPet().getName());
-            pstmt.setString(2, appointment.getVeterinarian().getStaffID());
-            pstmt.setTimestamp(3, Timestamp.valueOf(appointment.getDateTime()));
-            pstmt.setString(4, appointment.getNotes());
-            pstmt.executeUpdate();
+        String getPetIdSql = "SELECT id FROM pets WHERE name = ?";
+        String sql = "INSERT INTO appointments (pet_id, vet_id, date_time, notes) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            int petId = -1;
+            try (PreparedStatement pstmt = conn.prepareStatement(getPetIdSql)) {
+                pstmt.setString(1, appointment.getPet().getName());
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        petId = rs.getInt("id");
+                    }
+                }
+            }
+
+            if (petId == -1) {
+                throw new SQLException("Pet not found for appointment: " + appointment.getPet().getName());
+            }
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, petId);
+                pstmt.setInt(2, Integer.parseInt(appointment.getVeterinarian().getStaffID()));
+                pstmt.setTimestamp(3, Timestamp.valueOf(appointment.getDateTime()));
+                pstmt.setString(4, appointment.getNotes());
+                pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DatabaseConnectionException("Error saving appointment for date: " + appointment.getDateTime(), e);
         }
@@ -240,15 +257,14 @@ public class ClinicDAO {
 
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
-        // Note: Added s.specialty to the query columns
         String sql = "SELECT a.id, a.date_time, a.notes, " +
-                     "p.name AS pet_name, p.age, p.type, p.subclass_boolean_flag, " +
-                     "s.name AS vet_name, s.staff_id, s.specialty, " +
+                     "p.name AS pet_name, p.age, p.species, p.is_vaccinated, p.is_indoor, " +
+                     "s.name AS vet_name, s.id AS vet_id, s.specialization, " +
                      "o.name AS owner_name, o.phone, o.email " +
                      "FROM appointments a " +
-                     "JOIN pets p ON a.pet_name = p.name " +
-                     "JOIN staff s ON a.vet_id = s.staff_id " +
-                     "LEFT JOIN owners o ON p.owner_email = o.email";
+                     "JOIN pets p ON a.pet_id = p.id " +
+                     "JOIN staff s ON a.vet_id = s.id " +
+                     "LEFT JOIN owners o ON p.owner_id = o.id";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -264,18 +280,22 @@ public class ClinicDAO {
                     );
                 }
 
-                String petType = rs.getString("type");
+                String petType = rs.getString("species");
                 String name = rs.getString("pet_name");
                 int age = rs.getInt("age");
-                boolean flag = rs.getBoolean("subclass_boolean_flag");
 
-                Pet pet = "Dog".equalsIgnoreCase(petType) ? 
-                          new Dog(name, age, owner, flag) : 
-                          new Cat(name, age, owner, flag);
+                Pet pet;
+                if ("Dog".equalsIgnoreCase(petType)) {
+                    boolean isVaccinated = rs.getBoolean("is_vaccinated");
+                    pet = new Dog(name, age, owner, isVaccinated);
+                } else {
+                    boolean isIndoor = rs.getBoolean("is_indoor");
+                    pet = new Cat(name, age, owner, isIndoor);
+                }
 
                 String vetName = rs.getString("vet_name");
-                String vetId = rs.getString("staff_id");
-                String specialty = rs.getString("specialty");
+                String vetId = rs.getString("vet_id");
+                String specialty = rs.getString("specialization");
 
                 Veterinarian vet = new Veterinarian(vetName, vetId, specialty);
                 

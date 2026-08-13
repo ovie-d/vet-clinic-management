@@ -1,7 +1,11 @@
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/Appointment.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/Cat.java
+/Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/ClinicApp.java
+/Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/ClinicDAO.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/ClinicEntity.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/DailyLimitExceededException.java
+/Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/DatabaseConnection.java
+/Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/DatabaseConnectionException.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/Dog.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/DoubleBookingException.java
 /Users/david/Desktop/380/final project /vet-clinic/vet-clinic-management/src/edu/ucalgary/oop/Owner.java

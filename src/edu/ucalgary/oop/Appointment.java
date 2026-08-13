@@ -1,6 +1,7 @@
 package edu.ucalgary.oop;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Represents an appointment in the clinic.
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * @since 1.0
  */
 
-public class Appointment {
+public class Appointment implements ClinicEntity {
     private Pet pet;
     private Veterinarian veterinarian;
     private LocalDateTime dateTime;
@@ -53,4 +54,11 @@ public class Appointment {
         return MAX_APPOINTMENTS;
     }
 
+   @Override
+public String getDetails() {
+    return "Appointment — Pet: " + pet.getName() + 
+           ", Vet: " + veterinarian.getName() + 
+           ", Date: " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + 
+           ", Notes: " + notes;
+}
 }
