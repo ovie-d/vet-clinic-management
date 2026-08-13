@@ -33,7 +33,7 @@ vet-clinic-management/
 ## Setup
 
 ### 1. Clone the repository
-git clone https://github.com/yourusername/vet-clinic-management.git
+git clone https://github.com/ovie-d/vet-clinic-management.git
 cd vet-clinic-management
 
 ### 2. Set up the database
@@ -50,6 +50,8 @@ private static final String PASSWORD = "ucalgary";
 
 ### 4. Run the application
 mvn compile exec:java -Dexec.mainClass="edu.ucalgary.oop.ClinicApp"
+### or in powershell
+mvn compile exec:java '-Dexec.mainClass=edu.ucalgary.oop.ClinicApp'
 
 ### 5. Run tests
 mvn test
