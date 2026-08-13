@@ -16,6 +16,10 @@ public class Veterinarian extends Staff {
         this.specialization = specialization;
     }
 
+    public String getSpecialization() {
+        return specialization;
+    }
+
     @Override
     public String getRole() {
         return "Veterinarian";

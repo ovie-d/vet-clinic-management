@@ -1,5 +1,6 @@
 package edu.ucalgary.oop;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Represents an appointment in the clinic.
@@ -15,15 +16,21 @@ public class Appointment {
     private String notes;
     private static final int MAX_APPOINTMENTS = 10;
 
-    public Appointment(Pet pet, Veterinarian veterinarian, LocalDateTime dateTime, String notes) {
-        this.pet = pet;
-        this.veterinarian = veterinarian;
-        this.dateTime = dateTime;
-        this.notes = notes;
+   public Appointment(Pet pet, Veterinarian veterinarian, LocalDateTime dateTime, String notes, ArrayList<Appointment> existingAppointments) throws DoubleBookingException {
+    for (Appointment a : existingAppointments) {
+        if (a.getVeterinarian().getStaffID().equals(veterinarian.getStaffID()) 
+            && a.getDateTime().equals(dateTime)) {
+            throw new DoubleBookingException("Vet is already booked at this time");
+        }
     }
+    this.pet = pet;
+    this.veterinarian = veterinarian;
+    this.dateTime = dateTime;
+    this.notes = notes;
+}
 
     public Pet getPet() {
-        return pet;
+        return pet;         
     }
 
     public Veterinarian getVeterinarian() {
