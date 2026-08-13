@@ -1,12 +1,12 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="YAP85HpeAhNP3-CbUQ3B">
-    <mxGraphModel dx="2214" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3650" dy="2709" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <UserObject label="" mermaidData="{&#xa;  &quot;data&quot;: &quot;classDiagram\n  class ClinicManagementSystem {\n    -List~Staff~ staffMembers\n    -List~Owner~ owners\n    -List~Pet~ pets\n    -List~Appointment~ appointments\n    -DatabaseManager databaseManager\n    -AppointmentService appointmentService\n    +start() void\n    +loadData() void\n    +saveChanges() void\n  }\n\n  class Person {\n    &lt;&lt;abstract&gt;&gt;\n    -String name\n    +getName() String\n    +setName(name: String) void\n  }\n\n  class Staff {\n    &lt;&lt;abstract&gt;&gt;\n    -int staffId\n    -String staffType\n    +getStaffId() int\n    +getStaffType() String\n  }\n\n  class Veterinarian {\n    -String expertise\n    +getExpertise() String\n  }\n\n  class Receptionist {\n    +getStaffType() String\n  }\n\n  class Owner {\n    -int ownerId\n    -String phoneNumber\n    -String email\n    -List~Pet~ pets\n    +addPet(pet: Pet) void\n    +getPets() List~Pet~\n  }\n\n  class Pet {\n    &lt;&lt;abstract&gt;&gt;\n    -int petId\n    -String name\n    -int age\n    -Owner owner\n    -String petType\n    +getName() String\n    +getAge() int\n    +getOwner() Owner\n    +getPetType() String\n  }\n\n  class Dog {\n    -boolean vaccinated\n    +isVaccinated() boolean\n  }\n\n  class Cat {\n    -boolean indoor\n    +isIndoor() boolean\n  }\n\n  class Appointment {\n    -int appointmentId\n    -Pet pet\n    -Veterinarian veterinarian\n    -LocalDateTime dateTime\n    -String notes\n    +getDateTime() LocalDateTime\n    +getVeterinarian() Veterinarian\n  }\n\n  class AppointmentService {\n    &lt;&lt;interface&gt;&gt;\n    +scheduleAppointment(appointment: Appointment) void\n    +cancelAppointment(appointmentId: int) void\n    +findAppointmentsByDate(date: LocalDate) List~Appointment~\n  }\n\n  class AppointmentManager {\n    -List~Appointment~ appointments\n    -int dailyAppointmentLimit\n    +scheduleAppointment(appointment: Appointment) void\n    +cancelAppointment(appointmentId: int) void\n    +hasTimeConflict(appointment: Appointment) boolean\n    +exceedsDailyLimit(appointment: Appointment) boolean\n  }\n\n  class DatabaseManager {\n    -Connection connection\n    -String URL\n    -String USERNAME\n    -String PASSWORD\n    +connect() void\n    +loadStaff() List~Staff~\n    +loadOwners() List~Owner~\n    +loadPets() List~Pet~\n    +loadAppointments() List~Appointment~\n    +saveStaff(staff: Staff) void\n    +saveOwner(owner: Owner) void\n    +savePet(pet: Pet) void\n    +saveAppointment(appointment: Appointment) void\n    +close() void\n  }\n\n  class ClinicCLI {\n    -ClinicManagementSystem system\n    +run() void\n    +login() boolean\n    +displayMenu() void\n    +registerOwner() void\n    +registerPet() void\n    +scheduleAppointment() void\n    +cancelAppointment() void\n    +searchRecords() void\n  }\n\n  class StaffManager {\n    -List~Staff~ staffMembers\n    -static int totalStaff\n    +addStaff(staff: Staff) void\n    +findStaff(staffId: int) Staff\n    +getTotalStaff() int\n  }\n\n  class OwnerManager {\n    -List~Owner~ owners\n    -static int totalOwners\n    +addOwner(owner: Owner) void\n    +findOwner(ownerId: int) Owner\n    +getTotalOwners() int\n  }\n\n  class ClinicException {\n    &lt;&lt;exception&gt;&gt;\n  }\n\n  class DatabaseConnectionException {\n    &lt;&lt;exception&gt;&gt;\n  }\n\n  class AppointmentConflictException {\n    &lt;&lt;exception&gt;&gt;\n  }\n\n  class DailyLimitExceededException {\n    &lt;&lt;exception&gt;&gt;\n  }\n\n  class InvalidRecordException {\n    &lt;&lt;exception&gt;&gt;\n  }\n\n  class ClinicConstants {\n    &lt;&lt;final&gt;&gt;\n    +MAX_APPOINTMENTS_PER_VET_PER_DAY: int\n    +DATABASE_URL: String\n  }\n\n  Person &lt;|-- Staff\n  Person &lt;|-- Owner\n  Staff &lt;|-- Veterinarian\n  Staff &lt;|-- Receptionist\n  Pet &lt;|-- Dog\n  Pet &lt;|-- Cat\n\n  Owner \&quot;1\&quot; o-- \&quot;1..*\&quot; Pet : owns\n  Pet \&quot;1\&quot; --&gt; \&quot;1\&quot; Owner : belongs to\n  Appointment \&quot;1\&quot; --&gt; \&quot;1\&quot; Pet : for\n  Appointment \&quot;1\&quot; --&gt; \&quot;1\&quot; Veterinarian : assigned to\n\n  AppointmentManager ..|&gt; AppointmentService\n  ClinicManagementSystem --&gt; DatabaseManager\n  ClinicManagementSystem --&gt; AppointmentService\n  ClinicManagementSystem --&gt; StaffManager\n  ClinicManagementSystem --&gt; OwnerManager\n  ClinicManagementSystem --&gt; ClinicCLI\n  AppointmentManager --&gt; Appointment\n  DatabaseManager --&gt; Staff\n  DatabaseManager --&gt; Owner\n  DatabaseManager --&gt; Pet\n  DatabaseManager --&gt; Appointment\n\n  DatabaseConnectionException --|&gt; ClinicException\n  AppointmentConflictException --|&gt; ClinicException\n  DailyLimitExceededException --|&gt; ClinicException\n  InvalidRecordException --|&gt; ClinicException\n  DatabaseManager ..&gt; DatabaseConnectionException\n  AppointmentManager ..&gt; AppointmentConflictException\n  AppointmentManager ..&gt; DailyLimitExceededException\n  StaffManager ..&gt; InvalidRecordException\n  OwnerManager ..&gt; InvalidRecordException\n  AppointmentManager --&gt; ClinicConstants\n  StaffManager --&gt; ClinicConstants\n  OwnerManager --&gt; ClinicConstants&quot;,&#xa;  &quot;config&quot;: null&#xa;}" id="176">
           <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
-            <mxGeometry height="1495" width="1003" as="geometry" />
+            <mxGeometry height="1495" width="1160" as="geometry" />
           </mxCell>
         </UserObject>
         <UserObject label="&lt;b&gt;ClinicManagementSystem&lt;/b&gt;" mermaidId="n:ClinicManagementSystem" mermaidBaseStyle="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" mermaidBaseValue="&lt;b&gt;ClinicManagementSystem&lt;/b&gt;" id="2">
@@ -347,53 +347,44 @@
         </mxCell>
         <UserObject label="&lt;b&gt;DatabaseManager&lt;/b&gt;" mermaidId="n:DatabaseManager" mermaidBaseStyle="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" mermaidBaseValue="&lt;b&gt;DatabaseManager&lt;/b&gt;" id="80">
           <mxCell parent="176" style="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" vertex="1">
-            <mxGeometry height="428" width="461" x="863.7" y="382" as="geometry" />
+            <mxGeometry height="356" width="461" x="860" y="290" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="81" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-Connection connection" vertex="1">
-          <mxGeometry height="24" width="461" y="60" as="geometry" />
-        </mxCell>
-        <mxCell id="82" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String URL" vertex="1">
-          <mxGeometry height="24" width="461" y="84" as="geometry" />
-        </mxCell>
-        <mxCell id="83" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String USERNAME" vertex="1">
-          <mxGeometry height="24" width="461" y="108" as="geometry" />
-        </mxCell>
-        <mxCell id="84" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String PASSWORD" vertex="1">
-          <mxGeometry height="24" width="461" y="132" as="geometry" />
-        </mxCell>
         <mxCell id="85" parent="80" style="line;strokeWidth=1;fillColor=none;spacingLeft=3;spacingRight=3;rotatable=0;points=[];strokeColor=inherit;" vertex="1">
-          <mxGeometry height="20" width="461" y="156" as="geometry" />
+          <mxGeometry height="20" width="461" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="86" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+connect() void" vertex="1">
+        <mxCell id="87" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+int getRecordCount(String tableName)" vertex="1">
+          <mxGeometry height="24" width="461" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-237" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void addVeterninarian(Veterinarian vet)" vertex="1">
+          <mxGeometry height="24" width="461" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-238" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void addReceptionist(Receptionist recertionist)" vertex="1">
+          <mxGeometry height="24" width="461" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-239" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+List&lt;Staff&gt; getAllStaff()" vertex="1">
+          <mxGeometry height="24" width="461" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-240" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void addOwner(Owner owner)" vertex="1">
           <mxGeometry height="24" width="461" y="176" as="geometry" />
         </mxCell>
-        <mxCell id="87" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+loadStaff() List&lt;Staff&gt;" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-241" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+List&lt;Owner&gt; getAllOwners()" vertex="1">
           <mxGeometry height="24" width="461" y="200" as="geometry" />
         </mxCell>
-        <mxCell id="88" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+loadOwners() List&lt;Owner&gt;" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-242" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void addPet(Pet pet)" vertex="1">
           <mxGeometry height="24" width="461" y="224" as="geometry" />
         </mxCell>
-        <mxCell id="89" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+loadPets() List&lt;Pet&gt;" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-243" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+List&lt;Pet&gt; getAllPets()" vertex="1">
           <mxGeometry height="24" width="461" y="248" as="geometry" />
         </mxCell>
-        <mxCell id="90" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+loadAppointments() List&lt;Appointment&gt;" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-244" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void addAppointment(Appointment appointment)" vertex="1">
           <mxGeometry height="24" width="461" y="272" as="geometry" />
         </mxCell>
-        <mxCell id="91" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+saveStaff(staff: Staff) void" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-245" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+List&lt;Appointment&gt; getAllAppointments()" vertex="1">
           <mxGeometry height="24" width="461" y="296" as="geometry" />
         </mxCell>
-        <mxCell id="92" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+saveOwner(owner: Owner) void" vertex="1">
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-246" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+void cancelAppointment(int appointmentId)" vertex="1">
           <mxGeometry height="24" width="461" y="320" as="geometry" />
-        </mxCell>
-        <mxCell id="93" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+savePet(pet: Pet) void" vertex="1">
-          <mxGeometry height="24" width="461" y="344" as="geometry" />
-        </mxCell>
-        <mxCell id="94" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+saveAppointment(appointment: Appointment) void" vertex="1">
-          <mxGeometry height="24" width="461" y="368" as="geometry" />
-        </mxCell>
-        <mxCell id="95" parent="80" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+close() void" vertex="1">
-          <mxGeometry height="24" width="461" y="392" as="geometry" />
         </mxCell>
         <UserObject label="&lt;b&gt;ClinicCLI&lt;/b&gt;" mermaidId="n:ClinicCLI" mermaidBaseStyle="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" mermaidBaseValue="&lt;b&gt;ClinicCLI&lt;/b&gt;" id="96">
           <mxCell parent="176" style="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" vertex="1">
@@ -657,15 +648,6 @@
             </mxGeometry>
           </mxCell>
         </UserObject>
-        <UserObject label="" mermaidId="e:ClinicManagementSystem-&gt;DatabaseManager#0" mermaidBaseStyle="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0;exitY=0.67;entryX=0.5;entryY=0;" mermaidBaseValue="" id="154">
-          <mxCell edge="1" parent="176" source="2" style="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0;exitY=0.67;entryX=0.5;entryY=0;" target="80">
-            <mxGeometry relative="1" as="geometry">
-              <Array as="points">
-                <mxPoint x="1094.7" y="357" />
-              </Array>
-            </mxGeometry>
-          </mxCell>
-        </UserObject>
         <UserObject label="" mermaidId="e:ClinicManagementSystem-&gt;AppointmentService#0" mermaidBaseStyle="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0.12;exitY=1;entryX=0.56;entryY=0;" mermaidBaseValue="" id="155">
           <mxCell edge="1" parent="176" source="2" style="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0.12;exitY=1;entryX=0.56;entryY=0;" target="67">
             <mxGeometry relative="1" as="geometry">
@@ -744,7 +726,7 @@
           <mxCell edge="1" parent="176" source="80" style="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0.08;exitY=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="59">
             <mxGeometry relative="1" as="geometry">
               <Array as="points">
-                <mxPoint x="880.7" y="839" />
+                <mxPoint x="1030" y="830" />
               </Array>
               <mxPoint x="820.0000000000002" y="849" as="targetPoint" />
             </mxGeometry>
@@ -852,6 +834,38 @@
             <mxGeometry relative="1" as="geometry">
               <Array as="points">
                 <mxPoint x="3130.7" y="839" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-236" edge="1" parent="1" source="YYDWrrPPP1dMLFWA7gqJ-220" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="&lt;b&gt;DatabaseConnection&lt;/b&gt;" mermaidId="n:DatabaseManager" mermaidBaseStyle="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" mermaidBaseValue="&lt;b&gt;DatabaseManager&lt;/b&gt;" id="YYDWrrPPP1dMLFWA7gqJ-220">
+          <mxCell parent="1" style="swimlane;html=1;fontStyle=0;fontSize=16;align=center;verticalAlign=middle;horizontal=1;childLayout=stackLayout;startSize=48;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginTop=12;marginBottom=12;stackSpacing=0;swimlaneFillColor=light-dark(#ECECFF,#1f2020);whiteSpace=wrap;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" vertex="1">
+            <mxGeometry height="188" width="461" x="860" y="-60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-222" parent="YYDWrrPPP1dMLFWA7gqJ-220" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String URL" vertex="1">
+          <mxGeometry height="24" width="461" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-223" parent="YYDWrrPPP1dMLFWA7gqJ-220" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String USER" vertex="1">
+          <mxGeometry height="24" width="461" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-224" parent="YYDWrrPPP1dMLFWA7gqJ-220" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="-String PASSWORD" vertex="1">
+          <mxGeometry height="24" width="461" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-225" parent="YYDWrrPPP1dMLFWA7gqJ-220" style="line;strokeWidth=1;fillColor=none;spacingLeft=3;spacingRight=3;rotatable=0;points=[];strokeColor=inherit;" vertex="1">
+          <mxGeometry height="20" width="461" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="YYDWrrPPP1dMLFWA7gqJ-226" parent="YYDWrrPPP1dMLFWA7gqJ-220" style="text;fontSize=16;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontColor=light-dark(#333333,#cccccc);" value="+Connection getConnection()" vertex="1">
+          <mxGeometry height="24" width="461" y="152" as="geometry" />
+        </mxCell>
+        <UserObject label="" mermaidId="e:ClinicManagementSystem-&gt;DatabaseManager#0" mermaidBaseStyle="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0;exitY=0.67;entryX=0.5;entryY=0;" mermaidBaseValue="" id="154">
+          <mxCell edge="1" parent="1" source="2" style="curved=1;startArrow=none;endArrow=classic;endSize=9;strokeColor=light-dark(#333333,#cccccc);exitX=0;exitY=0.67;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="YYDWrrPPP1dMLFWA7gqJ-220">
+            <mxGeometry relative="1" as="geometry">
+              <Array as="points">
+                <mxPoint x="1460" y="-280" />
               </Array>
             </mxGeometry>
           </mxCell>
