@@ -34,4 +34,15 @@ public class ClinicDAO {
         }
         return 0;
     }
+
+    // Staff methods
+
+
+    // Owner methods
+
+
+    // Pet Methods
+
+
+    // Appointment Methods
 }
